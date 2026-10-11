@@ -1,4 +1,5 @@
-# Push a tag like v0.1.0 to build installers for Windows (.exe, .msi) and
+# Push a tag like v0.1.0 (or run this workflow by hand with a version, which
+# creates the tag on the current commit) to build installers for Windows (.exe, .msi) and
 # Linux (.AppImage, .deb, .rpm) and attach them, with the ubl CLI, to a
 # draft GitHub release. Check the draft, then publish it.
 name: Release
@@ -6,6 +7,14 @@ name: Release
 on:
   push:
     tags: ["v*"]
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Release tag to create, e.g. v0.1.0"
+        required: true
+
+env:
+  TAG: ${{ inputs.version || github.ref_name }}
 
 permissions:
   contents: write
@@ -42,8 +51,9 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tagName: ${{ github.ref_name }}
-          releaseName: UNBEATEN Launcher ${{ github.ref_name }}
+          tagName: ${{ env.TAG }}
+          releaseName: UNBEATEN Launcher ${{ env.TAG }}
+          releaseCommitish: ${{ github.sha }}
           releaseBody: |
             Windows: the `.exe` installer (or the `.msi`).
             Linux: the `.AppImage` (make it executable and run it), or the `.deb` / `.rpm`.
@@ -57,4 +67,4 @@ jobs:
         run: |
           cargo build --release -p ubl
           cp "${{ matrix.cli }}" "${{ matrix.cli_name }}"
-          gh release upload "${{ github.ref_name }}" "${{ matrix.cli_name }}" --clobber
+          gh release upload "$TAG" "${{ matrix.cli_name }}" --clobber
