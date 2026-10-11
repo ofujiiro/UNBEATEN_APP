@@ -164,24 +164,30 @@ mod tests {
 
     #[test]
     fn parses_the_sample_save() {
+        // Made-up data in the shape of a real arcade-highscores.json.
         let entries = parse_save(SAMPLE.as_bytes()).unwrap();
-        assert_eq!(entries.len(), 63);
+        assert_eq!(entries.len(), 11);
         let custom: Vec<_> = entries.iter().filter(|e| e.is_custom()).collect();
-        assert_eq!(custom.len(), 29);
-        assert_eq!(entries.iter().filter(|e| !e.cleared()).count(), 3);
-        let drifting = entries
+        assert_eq!(custom.len(), 8);
+        assert_eq!(entries.iter().filter(|e| !e.cleared()).count(), 2);
+        let graded = entries
             .iter()
-            .find(|e| e.song == "CUSTOM_Drifting/UNBEATABLE\\Classic")
+            .find(|e| e.song == "CUSTOM_Graded/UNBEATABLE\\Classic")
             .unwrap();
         assert_eq!(
-            drifting.custom_key(),
-            Some(("Drifting".into(), "UNBEATABLE".into()))
+            graded.custom_key(),
+            Some(("Graded".into(), "UNBEATABLE".into()))
         );
-        assert_eq!(drifting.max_combo(), 372);
+        assert_eq!((graded.max_combo(), graded.miss_count()), (372, 4));
         // Unknown fields survive a round trip.
-        let back = serde_json::to_value(drifting).unwrap();
+        let back = serde_json::to_value(graded).unwrap();
         assert_eq!(back["grade"], 5);
         assert_eq!(back["notes"][0]["timing"], "Critical");
+        let dt = entries
+            .iter()
+            .find(|e| e.song.ends_with("Beginner\\DoubleTime"))
+            .unwrap();
+        assert_eq!(dt.modifier_mask(), 20);
     }
 
     #[test]
