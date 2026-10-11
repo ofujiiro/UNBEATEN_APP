@@ -35,8 +35,8 @@ function PathField({ label, value, detected, override, onChange, directory, help
       </div>
       <div className="field-help">
         {override ? 'Using the path above.' : detected ? `Detected: ${detected}` : 'Not found automatically. Pick it with Browse.'}
-        {' '}{help}
       </div>
+      <div className="field-help">{help}</div>
     </div>
   )
 }

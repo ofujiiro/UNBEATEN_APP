@@ -243,6 +243,8 @@ a { color: var(--pink2); cursor: pointer; text-decoration: underline; }
 .num { font-family: var(--font-mono); font-size: 12px; text-align: right; white-space: nowrap; }
 .table th.num { text-align: right; }
 .truncate { max-width: 320px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.table-fixed { table-layout: fixed; }
+.cell-truncate { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
 /* ── Forms ── */
 .field { margin-bottom: 18px; }

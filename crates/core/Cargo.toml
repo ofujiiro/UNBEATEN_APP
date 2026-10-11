@@ -3,7 +3,6 @@ name = "unbeaten-core"
 description = "Game detection, chart hashing, map management and score sync for the UNBEATEN launcher"
 version.workspace = true
 edition.workspace = true
-license.workspace = true
 
 [dependencies]
 serde.workspace = true

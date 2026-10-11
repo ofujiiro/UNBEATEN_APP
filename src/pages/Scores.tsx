@@ -81,22 +81,27 @@ export default function Scores() {
         {rows === null && !error && <div className="empty">Reading your save…</div>}
         {rows && shown.length === 0 && <div className="empty">No scores here.</div>}
         {shown.length > 0 && (
-          <table className="table">
+          <table className="table table-fixed">
+            <colgroup>
+              <col /><col style={{ width: 170 }} /><col style={{ width: 92 }} />
+              <col style={{ width: 56 }} /><col style={{ width: 132 }} /><col style={{ width: 92 }} />
+            </colgroup>
             <thead>
               <tr>
-                <th>Song</th><th>Difficulty</th><th className="num">Accuracy</th><th className="num">Combo</th>
-                <th className="num">Miss</th><th>Mods</th><th>Status</th><th className="num">PP</th>
+                <th>Song</th><th>Difficulty</th><th className="num">Accuracy</th>
+                <th className="num">Miss</th><th>Status</th><th className="num">PP</th>
               </tr>
             </thead>
             <tbody>
               {shown.map(r => (
                 <tr key={r.song} title={scoreStatusHelp(r.status)}>
-                  <td className="truncate">{r.folder}</td>
-                  <td>{r.tier}{r.mode && r.mode !== 'Classic' ? ` · ${r.mode}` : ''}</td>
-                  <td className="num">{percent(r.accuracy)}</td>
-                  <td className="num">{r.max_combo}</td>
+                  <td className="cell-truncate">{r.folder}</td>
+                  <td className="cell-truncate">
+                    {r.tier}{r.mode && r.mode !== 'Classic' ? ` · ${r.mode}` : ''}
+                    {mods(r.modifier_mask).map(m => <span key={m} className="chip" style={{ marginLeft: 6 }}>{m}</span>)}
+                  </td>
+                  <td className="num">{percent(r.accuracy)}<div className="small muted">x{r.max_combo}</div></td>
                   <td className="num">{r.misses}</td>
-                  <td className="small">{mods(r.modifier_mask).join(' ')}</td>
                   <td><ScoreBadge status={r.status} />{r.verified && <span className="small muted" title="Matched to the ranked chart by its content"> ✓</span>}</td>
                   <td className="num">{r.pp != null ? pp(r.pp) : '-'}</td>
                 </tr>

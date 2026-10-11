@@ -214,6 +214,8 @@ def main():
     ap.add_argument("--ubl", type=Path, required=True, help="the ubl binary")
     ap.add_argument("--keep", action="store_true", help="keep the temporary folder")
     args = ap.parse_args()
+    for name in ("unbeaten", "charts", "save", "ubl"):
+        setattr(args, name, getattr(args, name).resolve())
     env = Env(args)
     try:
         run(env)
@@ -285,8 +287,12 @@ def run(env):
     others = {k: v for f in folders[1:] for k, v in by_folder(f.name).items() if v["status"] != "failed_run"}
     check(others and all(v["status"] == "imported" and v["verified"] for v in others.values()),
           f"{len(others)} existing scores imported and verified")
-    check(report["failed_runs"] == sum(1 for e in load_save(env.save)["highScores"] if not e.get("cleared", True)),
-          f"{report['failed_runs']} failed runs kept local")
+    uncleared = [e["song"] for e in load_save(env.save)["highScores"]
+                 if not e.get("cleared", True) and e["song"].upper().startswith("CUSTOM_")]
+    check(all(states[s]["status"] in ("failed_run", "baseline") for s in uncleared),
+          f"{len(uncleared)} failed runs kept local")
+    check(report["failed_runs"] == sum(1 for s in uncleared if not s.startswith(f"CUSTOM_{to_install.name}/")),
+          "failed runs outside the installed map are reported as such")
     check(report["totals"]["total_pp"] > 0, f"total PP now {report['totals']['total_pp']}")
 
     song = first_tier_entry(env.save, to_install.name)

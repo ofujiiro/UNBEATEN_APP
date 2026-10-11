@@ -28,7 +28,7 @@
   },
   "bundle": {
     "active": true,
-    "targets": ["nsis", "msi", "appimage", "deb"],
+    "targets": "all",
     "category": "Game",
     "shortDescription": "Sync UNBEATABLE scores and ranked maps with UNBEATEN",
     "longDescription": "The UNBEATEN Launcher signs in to your unbeaten.cc account, launches UNBEATABLE, syncs your custom-chart scores after every play and installs or updates ranked maps.",
