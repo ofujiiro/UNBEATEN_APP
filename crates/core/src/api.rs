@@ -457,3 +457,47 @@ mod tests {
         assert_eq!(c.url("https://cdn.example/x"), "https://cdn.example/x");
     }
 }
+
+pub const RELEASES_PAGE: &str = "https://github.com/ofujiiro/UNBEATEN_APP/releases/latest";
+const RELEASES_API: &str = "https://api.github.com/repos/ofujiiro/UNBEATEN_APP/releases/latest";
+
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
+pub struct UpdateInfo {
+    pub version: String,
+    pub url: String,
+}
+
+/// A newer published release than this build, if GitHub says there is one.
+pub fn check_for_update() -> Option<UpdateInfo> {
+    #[derive(Deserialize)]
+    struct Release {
+        tag_name: String,
+        html_url: String,
+        #[serde(default)]
+        draft: bool,
+        #[serde(default)]
+        prerelease: bool,
+    }
+    let http = Client::builder()
+        .user_agent(user_agent())
+        .timeout(Duration::from_secs(15))
+        .build()
+        .ok()?;
+    let release: Release = http
+        .get(RELEASES_API)
+        .header("Accept", "application/vnd.github+json")
+        .send()
+        .ok()?
+        .error_for_status()
+        .ok()?
+        .json()
+        .ok()?;
+    let version = release.tag_name.trim_start_matches('v').to_string();
+    if release.draft || release.prerelease || !version_lt(CLIENT_VERSION, &version) {
+        return None;
+    }
+    Some(UpdateInfo {
+        version,
+        url: release.html_url,
+    })
+}

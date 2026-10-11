@@ -1,0 +1,22 @@
+[package]
+name = "unbeaten-launcher"
+description = "UNBEATEN Launcher: plays UNBEATABLE, syncs your scores to unbeaten.cc and installs ranked maps"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+
+[build-dependencies]
+tauri-build = { version = "2", features = [] }
+
+[dependencies]
+unbeaten-core.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+log.workspace = true
+tauri = { version = "2", features = ["tray-icon", "image-png"] }
+tauri-plugin-opener = "2"
+tauri-plugin-dialog = "2"
+tauri-plugin-notification = "2"
+tauri-plugin-log = "2"
+tauri-plugin-single-instance = "2"
+tauri-plugin-autostart = "2"
