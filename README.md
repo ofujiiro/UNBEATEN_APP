@@ -146,7 +146,10 @@ python3 scripts/e2e.py --unbeaten ../UNBEATEN --charts scripts/e2e-fixtures/char
     --save scripts/e2e-fixtures/arcade-highscores.json --ubl target/debug/ubl
 ```
 
-CI runs it on every push, along with the Rust checks on Linux and Windows.
+CI runs the Rust checks on Linux and Windows on every push. The end-to-end job
+needs to read UNBEATEN, which is private: add a repository secret
+`UNBEATEN_READ_TOKEN` (a fine-grained token with read-only access to
+`ofujiiro/UNBEATEN` contents) and it runs too; without it, it's skipped.
 
 ### Releasing
 Bump `version` in `Cargo.toml` (workspace) and `package.json`, then push a tag:

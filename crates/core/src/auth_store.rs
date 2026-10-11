@@ -3,7 +3,6 @@
 //! none (e.g. a Linux session without a keyring).
 
 use std::collections::BTreeMap;
-use std::fs;
 use std::path::{Path, PathBuf};
 
 use crate::util::{read_json_or_default, write_atomic};
@@ -93,8 +92,9 @@ impl TokenStore {
 
 #[cfg(unix)]
 fn restrict_permissions(path: &Path) {
+    use std::fs::{set_permissions, Permissions};
     use std::os::unix::fs::PermissionsExt;
-    let _ = fs::set_permissions(path, fs::Permissions::from_mode(0o600));
+    let _ = set_permissions(path, Permissions::from_mode(0o600));
 }
 
 #[cfg(not(unix))]
@@ -118,7 +118,7 @@ mod tests {
         #[cfg(unix)]
         {
             use std::os::unix::fs::PermissionsExt;
-            let mode = fs::metadata(dir.path().join("tokens.json"))
+            let mode = std::fs::metadata(dir.path().join("tokens.json"))
                 .unwrap()
                 .permissions()
                 .mode();

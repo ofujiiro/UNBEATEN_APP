@@ -40,22 +40,40 @@ jobs:
   e2e:
     name: End to end against UNBEATEN
     runs-on: ubuntu-22.04
+    # UNBEATEN is private: add a repository secret UNBEATEN_READ_TOKEN (a
+    # fine-grained token with read access to ofujiiro/UNBEATEN contents) to
+    # run this job. Without it the job only notes that it was skipped.
+    env:
+      HAS_TOKEN: ${{ secrets.UNBEATEN_READ_TOKEN != '' }}
     steps:
+      - name: Skipped without UNBEATEN_READ_TOKEN
+        if: env.HAS_TOKEN != 'true'
+        run: echo "::notice::End-to-end check skipped. Add the UNBEATEN_READ_TOKEN secret to run it."
       - uses: actions/checkout@v4
+        if: env.HAS_TOKEN == 'true'
       - uses: actions/checkout@v4
+        if: env.HAS_TOKEN == 'true'
         with:
           repository: ofujiiro/UNBEATEN
+          token: ${{ secrets.UNBEATEN_READ_TOKEN }}
           path: unbeaten
       - uses: actions/setup-python@v5
+        if: env.HAS_TOKEN == 'true'
         with:
           python-version: "3.12"
-      - run: pip install -r unbeaten/backend/requirements-dev.txt
+      - if: env.HAS_TOKEN == 'true'
+        run: pip install -r unbeaten/backend/requirements-dev.txt
       - uses: dtolnay/rust-toolchain@stable
+        if: env.HAS_TOKEN == 'true'
       - uses: Swatinem/rust-cache@v2
-      - run: cargo build -p ubl
+        if: env.HAS_TOKEN == 'true'
+      - if: env.HAS_TOKEN == 'true'
+        run: cargo build -p ubl
       - name: Chart hash vectors match UNBEATEN's
+        if: env.HAS_TOKEN == 'true'
         run: diff unbeaten/backend/tests/fixtures/chart_hash_vectors.json crates/core/tests/fixtures/chart_hash_vectors.json
-      - run: >
+      - if: env.HAS_TOKEN == 'true'
+        run: >
           python3 scripts/e2e.py --unbeaten unbeaten
           --charts scripts/e2e-fixtures/charts
           --save scripts/e2e-fixtures/arcade-highscores.json
