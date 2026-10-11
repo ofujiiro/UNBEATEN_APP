@@ -1,0 +1,19 @@
+# Rust
+/target/
+**/*.rs.bk
+
+# Node / Vite
+node_modules/
+/dist/
+
+# Tauri
+/src-tauri/gen/schemas/
+
+# Editors / OS
+.DS_Store
+.idea/
+.vscode/
+*.swp
+
+# Python (scripts)
+__pycache__/

@@ -1,0 +1,102 @@
+{
+  "algo": "ubh1",
+  "description": "Shared test vectors for the ubh1 chart hash. Used by UNBEATEN (backend/tests/test_chart_hash.py) and UNBEATEN_APP (crates/core). Inputs are base64 so line endings and BOMs survive.",
+  "same_as_base": [
+    "crlf",
+    "bom",
+    "metadata_edit",
+    "reordered_same_time",
+    "trailing_whitespace",
+    "comment_in_hitobjects",
+    "invalid_utf8"
+  ],
+  "different_from_base": [
+    "note_moved",
+    "timing_changed",
+    "difficulty_section"
+  ],
+  "null": [
+    "no_hitobjects",
+    "empty_hitobjects"
+  ],
+  "cases": [
+    {
+      "name": "base",
+      "note": "Reference chart (LF line endings).",
+      "input_b64": "Ly9vdXRwdXQgZnJvbSBUYXJvTnVrZSdzIHVuaXR5IGVkaXRvciB2MS4wMwoKW0dlbmVyYWxdCkF1ZGlvRmlsZW5hbWU6IHNvbmcubXAzCgpbRWRpdG9yXQpCb29rbWFya3M6IDEwMDAsMjAwMAoKW01ldGFkYXRhXQpUaXRsZTpTb25nCkFydGlzdDpBcnRpc3QKQ3JlYXRvcjpNYXBwZXIKVmVyc2lvbjpIYXJkClRhZ3M6eyJMZXZlbCI6MTJ9CgpbRGlmZmljdWx0eV0KCltFdmVudHNdCgpbVGltaW5nUG9pbnRzXQotMTM4MCw1OTEuMTMzLDQsMiwwLDEwMCwxLDAKCgpbSGl0T2JqZWN0c10KMjk4LDE5Miw5OCw1LDAsMDowOjA6MDoKMjEzLDE5Miw5OCwxLDAsMDowOjA6MDoKMjEzLDE5MiwzOTMsMSwwLDA6MDowOjA6CjI5OCwxOTIsNTQxLDEyOCwyLDkwMDowOjA6MDowOgoyMTMsMTkyLDEyODAsMSwwLDA6MDowOjA6Cg==",
+      "expected": "e6a49212b1a57ab9a6d760df7a28d8390787784b18478388c426c1953209d3f1"
+    },
+    {
+      "name": "crlf",
+      "note": "Same chart with CRLF line endings: same hash as base.",
+      "input_b64": "Ly9vdXRwdXQgZnJvbSBUYXJvTnVrZSdzIHVuaXR5IGVkaXRvciB2MS4wMw0KDQpbR2VuZXJhbF0NCkF1ZGlvRmlsZW5hbWU6IHNvbmcubXAzDQoNCltFZGl0b3JdDQpCb29rbWFya3M6IDEwMDAsMjAwMA0KDQpbTWV0YWRhdGFdDQpUaXRsZTpTb25nDQpBcnRpc3Q6QXJ0aXN0DQpDcmVhdG9yOk1hcHBlcg0KVmVyc2lvbjpIYXJkDQpUYWdzOnsiTGV2ZWwiOjEyfQ0KDQpbRGlmZmljdWx0eV0NCg0KW0V2ZW50c10NCg0KW1RpbWluZ1BvaW50c10NCi0xMzgwLDU5MS4xMzMsNCwyLDAsMTAwLDEsMA0KDQoNCltIaXRPYmplY3RzXQ0KMjk4LDE5Miw5OCw1LDAsMDowOjA6MDoNCjIxMywxOTIsOTgsMSwwLDA6MDowOjA6DQoyMTMsMTkyLDM5MywxLDAsMDowOjA6MDoNCjI5OCwxOTIsNTQxLDEyOCwyLDkwMDowOjA6MDowOg0KMjEzLDE5MiwxMjgwLDEsMCwwOjA6MDowOg0K",
+      "expected": "e6a49212b1a57ab9a6d760df7a28d8390787784b18478388c426c1953209d3f1"
+    },
+    {
+      "name": "bom",
+      "note": "Same chart with a UTF-8 BOM: same hash as base.",
+      "input_b64": "77u/Ly9vdXRwdXQgZnJvbSBUYXJvTnVrZSdzIHVuaXR5IGVkaXRvciB2MS4wMwoKW0dlbmVyYWxdCkF1ZGlvRmlsZW5hbWU6IHNvbmcubXAzCgpbRWRpdG9yXQpCb29rbWFya3M6IDEwMDAsMjAwMAoKW01ldGFkYXRhXQpUaXRsZTpTb25nCkFydGlzdDpBcnRpc3QKQ3JlYXRvcjpNYXBwZXIKVmVyc2lvbjpIYXJkClRhZ3M6eyJMZXZlbCI6MTJ9CgpbRGlmZmljdWx0eV0KCltFdmVudHNdCgpbVGltaW5nUG9pbnRzXQotMTM4MCw1OTEuMTMzLDQsMiwwLDEwMCwxLDAKCgpbSGl0T2JqZWN0c10KMjk4LDE5Miw5OCw1LDAsMDowOjA6MDoKMjEzLDE5Miw5OCwxLDAsMDowOjA6MDoKMjEzLDE5MiwzOTMsMSwwLDA6MDowOjA6CjI5OCwxOTIsNTQxLDEyOCwyLDkwMDowOjA6MDowOgoyMTMsMTkyLDEyODAsMSwwLDA6MDowOjA6Cg==",
+      "expected": "e6a49212b1a57ab9a6d760df7a28d8390787784b18478388c426c1953209d3f1"
+    },
+    {
+      "name": "metadata_edit",
+      "note": "Title, bookmarks and level changed: same hash as base.",
+      "input_b64": "Ly9vdXRwdXQgZnJvbSBUYXJvTnVrZSdzIHVuaXR5IGVkaXRvciB2MS4wMwoKW0dlbmVyYWxdCkF1ZGlvRmlsZW5hbWU6IHNvbmcubXAzCgpbRWRpdG9yXQpCb29rbWFya3M6IDUKCltNZXRhZGF0YV0KVGl0bGU6UmVuYW1lZApBcnRpc3Q6QXJ0aXN0CkNyZWF0b3I6TWFwcGVyClZlcnNpb246SGFyZApUYWdzOnsiTGV2ZWwiOjEzfQoKW0RpZmZpY3VsdHldCgpbRXZlbnRzXQoKW1RpbWluZ1BvaW50c10KLTEzODAsNTkxLjEzMyw0LDIsMCwxMDAsMSwwCgoKW0hpdE9iamVjdHNdCjI5OCwxOTIsOTgsNSwwLDA6MDowOjA6CjIxMywxOTIsOTgsMSwwLDA6MDowOjA6CjIxMywxOTIsMzkzLDEsMCwwOjA6MDowOgoyOTgsMTkyLDU0MSwxMjgsMiw5MDA6MDowOjA6MDoKMjEzLDE5MiwxMjgwLDEsMCwwOjA6MDowOgo=",
+      "expected": "e6a49212b1a57ab9a6d760df7a28d8390787784b18478388c426c1953209d3f1"
+    },
+    {
+      "name": "reordered_same_time",
+      "note": "Two notes at the same time swapped: same hash as base.",
+      "input_b64": "Ly9vdXRwdXQgZnJvbSBUYXJvTnVrZSdzIHVuaXR5IGVkaXRvciB2MS4wMwoKW0dlbmVyYWxdCkF1ZGlvRmlsZW5hbWU6IHNvbmcubXAzCgpbRWRpdG9yXQpCb29rbWFya3M6IDEwMDAsMjAwMAoKW01ldGFkYXRhXQpUaXRsZTpTb25nCkFydGlzdDpBcnRpc3QKQ3JlYXRvcjpNYXBwZXIKVmVyc2lvbjpIYXJkClRhZ3M6eyJMZXZlbCI6MTJ9CgpbRGlmZmljdWx0eV0KCltFdmVudHNdCgpbVGltaW5nUG9pbnRzXQotMTM4MCw1OTEuMTMzLDQsMiwwLDEwMCwxLDAKCgpbSGl0T2JqZWN0c10KMjEzLDE5Miw5OCwxLDAsMDowOjA6MDoKMjk4LDE5Miw5OCw1LDAsMDowOjA6MDoKMjEzLDE5MiwzOTMsMSwwLDA6MDowOjA6CjI5OCwxOTIsNTQxLDEyOCwyLDkwMDowOjA6MDowOgoyMTMsMTkyLDEyODAsMSwwLDA6MDowOjA6Cg==",
+      "expected": "e6a49212b1a57ab9a6d760df7a28d8390787784b18478388c426c1953209d3f1"
+    },
+    {
+      "name": "trailing_whitespace",
+      "note": "Whitespace around lines: same hash as base.",
+      "input_b64": "Ly9vdXRwdXQgZnJvbSBUYXJvTnVrZSdzIHVuaXR5IGVkaXRvciB2MS4wMwoKW0dlbmVyYWxdCkF1ZGlvRmlsZW5hbWU6IHNvbmcubXAzCgpbRWRpdG9yXQpCb29rbWFya3M6IDEwMDAsMjAwMAoKW01ldGFkYXRhXQpUaXRsZTpTb25nCkFydGlzdDpBcnRpc3QKQ3JlYXRvcjpNYXBwZXIKVmVyc2lvbjpIYXJkClRhZ3M6eyJMZXZlbCI6MTJ9CgpbRGlmZmljdWx0eV0KCltFdmVudHNdCgpbVGltaW5nUG9pbnRzXQotMTM4MCw1OTEuMTMzLDQsMiwwLDEwMCwxLDAKCgpbSGl0T2JqZWN0c10KMjk4LDE5Miw5OCw1LDAsMDowOjA6MDoKMjEzLDE5Miw5OCwxLDAsMDowOjA6MDoKICAyMTMsMTkyLDM5MywxLDAsMDowOjA6MDogIAkKMjk4LDE5Miw1NDEsMTI4LDIsOTAwOjA6MDowOjA6CjIxMywxOTIsMTI4MCwxLDAsMDowOjA6MDoK",
+      "expected": "e6a49212b1a57ab9a6d760df7a28d8390787784b18478388c426c1953209d3f1"
+    },
+    {
+      "name": "comment_in_hitobjects",
+      "note": "A // comment inside [HitObjects]: same hash as base.",
+      "input_b64": "Ly9vdXRwdXQgZnJvbSBUYXJvTnVrZSdzIHVuaXR5IGVkaXRvciB2MS4wMwoKW0dlbmVyYWxdCkF1ZGlvRmlsZW5hbWU6IHNvbmcubXAzCgpbRWRpdG9yXQpCb29rbWFya3M6IDEwMDAsMjAwMAoKW01ldGFkYXRhXQpUaXRsZTpTb25nCkFydGlzdDpBcnRpc3QKQ3JlYXRvcjpNYXBwZXIKVmVyc2lvbjpIYXJkClRhZ3M6eyJMZXZlbCI6MTJ9CgpbRGlmZmljdWx0eV0KCltFdmVudHNdCgpbVGltaW5nUG9pbnRzXQotMTM4MCw1OTEuMTMzLDQsMiwwLDEwMCwxLDAKCgpbSGl0T2JqZWN0c10KLy8gYSBjb21tZW50CjI5OCwxOTIsOTgsNSwwLDA6MDowOjA6CjIxMywxOTIsOTgsMSwwLDA6MDowOjA6CjIxMywxOTIsMzkzLDEsMCwwOjA6MDowOgoyOTgsMTkyLDU0MSwxMjgsMiw5MDA6MDowOjA6MDoKMjEzLDE5MiwxMjgwLDEsMCwwOjA6MDowOgo=",
+      "expected": "e6a49212b1a57ab9a6d760df7a28d8390787784b18478388c426c1953209d3f1"
+    },
+    {
+      "name": "note_moved",
+      "note": "One note moved by 1 ms: different hash.",
+      "input_b64": "Ly9vdXRwdXQgZnJvbSBUYXJvTnVrZSdzIHVuaXR5IGVkaXRvciB2MS4wMwoKW0dlbmVyYWxdCkF1ZGlvRmlsZW5hbWU6IHNvbmcubXAzCgpbRWRpdG9yXQpCb29rbWFya3M6IDEwMDAsMjAwMAoKW01ldGFkYXRhXQpUaXRsZTpTb25nCkFydGlzdDpBcnRpc3QKQ3JlYXRvcjpNYXBwZXIKVmVyc2lvbjpIYXJkClRhZ3M6eyJMZXZlbCI6MTJ9CgpbRGlmZmljdWx0eV0KCltFdmVudHNdCgpbVGltaW5nUG9pbnRzXQotMTM4MCw1OTEuMTMzLDQsMiwwLDEwMCwxLDAKCgpbSGl0T2JqZWN0c10KMjk4LDE5Miw5OCw1LDAsMDowOjA6MDoKMjEzLDE5Miw5OCwxLDAsMDowOjA6MDoKMjEzLDE5MiwzOTQsMSwwLDA6MDowOjA6CjI5OCwxOTIsNTQxLDEyOCwyLDkwMDowOjA6MDowOgoyMTMsMTkyLDEyODAsMSwwLDA6MDowOjA6Cg==",
+      "expected": "a3962af6316d7590138ebaf6af25df082e11f08b056f473d35c269ac4108f1c7"
+    },
+    {
+      "name": "timing_changed",
+      "note": "A timing point changed: different hash.",
+      "input_b64": "Ly9vdXRwdXQgZnJvbSBUYXJvTnVrZSdzIHVuaXR5IGVkaXRvciB2MS4wMwoKW0dlbmVyYWxdCkF1ZGlvRmlsZW5hbWU6IHNvbmcubXAzCgpbRWRpdG9yXQpCb29rbWFya3M6IDEwMDAsMjAwMAoKW01ldGFkYXRhXQpUaXRsZTpTb25nCkFydGlzdDpBcnRpc3QKQ3JlYXRvcjpNYXBwZXIKVmVyc2lvbjpIYXJkClRhZ3M6eyJMZXZlbCI6MTJ9CgpbRGlmZmljdWx0eV0KCltFdmVudHNdCgpbVGltaW5nUG9pbnRzXQotMTM4MCw1OTEuMTM0LDQsMiwwLDEwMCwxLDAKCgpbSGl0T2JqZWN0c10KMjk4LDE5Miw5OCw1LDAsMDowOjA6MDoKMjEzLDE5Miw5OCwxLDAsMDowOjA6MDoKMjEzLDE5MiwzOTMsMSwwLDA6MDowOjA6CjI5OCwxOTIsNTQxLDEyOCwyLDkwMDowOjA6MDowOgoyMTMsMTkyLDEyODAsMSwwLDA6MDowOjA6Cg==",
+      "expected": "0c0aa2376451cb0a536ae91d93bf4c46f17c5cb56cde9d0f1712c96cc8965416"
+    },
+    {
+      "name": "difficulty_section",
+      "note": "A [Difficulty] value added: different hash.",
+      "input_b64": "Ly9vdXRwdXQgZnJvbSBUYXJvTnVrZSdzIHVuaXR5IGVkaXRvciB2MS4wMwoKW0dlbmVyYWxdCkF1ZGlvRmlsZW5hbWU6IHNvbmcubXAzCgpbRWRpdG9yXQpCb29rbWFya3M6IDEwMDAsMjAwMAoKW01ldGFkYXRhXQpUaXRsZTpTb25nCkFydGlzdDpBcnRpc3QKQ3JlYXRvcjpNYXBwZXIKVmVyc2lvbjpIYXJkClRhZ3M6eyJMZXZlbCI6MTJ9CgpbRGlmZmljdWx0eV0KSFBEcmFpblJhdGU6NQoKW0V2ZW50c10KCltUaW1pbmdQb2ludHNdCi0xMzgwLDU5MS4xMzMsNCwyLDAsMTAwLDEsMAoKCltIaXRPYmplY3RzXQoyOTgsMTkyLDk4LDUsMCwwOjA6MDowOgoyMTMsMTkyLDk4LDEsMCwwOjA6MDowOgoyMTMsMTkyLDM5MywxLDAsMDowOjA6MDoKMjk4LDE5Miw1NDEsMTI4LDIsOTAwOjA6MDowOjA6CjIxMywxOTIsMTI4MCwxLDAsMDowOjA6MDoK",
+      "expected": "1cb02aaa9e89a5c99d30ba3ef3ca21a56d528b8da4081672ebdd90f07152acdd"
+    },
+    {
+      "name": "no_hitobjects",
+      "note": "No [HitObjects] section: null.",
+      "input_b64": "Ly9vdXRwdXQgZnJvbSBUYXJvTnVrZSdzIHVuaXR5IGVkaXRvciB2MS4wMwoKW0dlbmVyYWxdCkF1ZGlvRmlsZW5hbWU6IHNvbmcubXAzCgpbRWRpdG9yXQpCb29rbWFya3M6IDEwMDAsMjAwMAoKW01ldGFkYXRhXQpUaXRsZTpTb25nCkFydGlzdDpBcnRpc3QKQ3JlYXRvcjpNYXBwZXIKVmVyc2lvbjpIYXJkClRhZ3M6eyJMZXZlbCI6MTJ9CgpbRGlmZmljdWx0eV0KCltFdmVudHNdCgpbVGltaW5nUG9pbnRzXQotMTM4MCw1OTEuMTMzLDQsMiwwLDEwMCwxLDAKCgo=",
+      "expected": null
+    },
+    {
+      "name": "empty_hitobjects",
+      "note": "Empty [HitObjects] section: null.",
+      "input_b64": "Ly9vdXRwdXQgZnJvbSBUYXJvTnVrZSdzIHVuaXR5IGVkaXRvciB2MS4wMwoKW0dlbmVyYWxdCkF1ZGlvRmlsZW5hbWU6IHNvbmcubXAzCgpbRWRpdG9yXQpCb29rbWFya3M6IDEwMDAsMjAwMAoKW01ldGFkYXRhXQpUaXRsZTpTb25nCkFydGlzdDpBcnRpc3QKQ3JlYXRvcjpNYXBwZXIKVmVyc2lvbjpIYXJkClRhZ3M6eyJMZXZlbCI6MTJ9CgpbRGlmZmljdWx0eV0KCltFdmVudHNdCgpbVGltaW5nUG9pbnRzXQotMTM4MCw1OTEuMTMzLDQsMiwwLDEwMCwxLDAKCgpbSGl0T2JqZWN0c10KCi8vIG5vdGhpbmcK",
+      "expected": null
+    },
+    {
+      "name": "invalid_utf8",
+      "note": "Invalid UTF-8 in metadata: same hash as base (bytes are never decoded).",
+      "input_b64": "Ly9vdXRwdXQgZnJvbSBUYXJvTnVrZSdzIHVuaXR5IGVkaXRvciB2MS4wMwoKW0dlbmVyYWxdCkF1ZGlvRmlsZW5hbWU6IHNvbmcubXAzCgpbRWRpdG9yXQpCb29rbWFya3M6IDEwMDAsMjAwMAoKW01ldGFkYXRhXQpUaXRsZTr//lNvbmcKQXJ0aXN0OkFydGlzdApDcmVhdG9yOk1hcHBlcgpWZXJzaW9uOkhhcmQKVGFnczp7IkxldmVsIjoxMn0KCltEaWZmaWN1bHR5XQoKW0V2ZW50c10KCltUaW1pbmdQb2ludHNdCi0xMzgwLDU5MS4xMzMsNCwyLDAsMTAwLDEsMAoKCltIaXRPYmplY3RzXQoyOTgsMTkyLDk4LDUsMCwwOjA6MDowOgoyMTMsMTkyLDk4LDEsMCwwOjA6MDowOgoyMTMsMTkyLDM5MywxLDAsMDowOjA6MDoKMjk4LDE5Miw1NDEsMTI4LDIsOTAwOjA6MDowOjA6CjIxMywxOTIsMTI4MCwxLDAsMDowOjA6MDoK",
+      "expected": "e6a49212b1a57ab9a6d760df7a28d8390787784b18478388c426c1953209d3f1"
+    }
+  ]
+}

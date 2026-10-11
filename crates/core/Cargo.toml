@@ -1,0 +1,31 @@
+[package]
+name = "unbeaten-core"
+description = "Game detection, chart hashing, map management and score sync for the UNBEATEN launcher"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+
+[dependencies]
+serde.workspace = true
+serde_json.workspace = true
+thiserror.workspace = true
+log.workspace = true
+sha2 = "0.10"
+reqwest = { version = "0.12", default-features = false, features = ["blocking", "json", "rustls-tls"] }
+zip = { version = "2", default-features = false, features = ["deflate"] }
+dirs = "6"
+sysinfo = { version = "0.33", default-features = false, features = ["system"] }
+
+[target.'cfg(target_os = "windows")'.dependencies]
+winreg = "0.55"
+keyring = { version = "3", features = ["windows-native"] }
+
+[target.'cfg(target_os = "macos")'.dependencies]
+keyring = { version = "3", features = ["apple-native"] }
+
+[target.'cfg(target_os = "linux")'.dependencies]
+keyring = { version = "3", features = ["sync-secret-service", "crypto-rust"] }
+
+[dev-dependencies]
+base64 = "0.22"
+tempfile = "3"

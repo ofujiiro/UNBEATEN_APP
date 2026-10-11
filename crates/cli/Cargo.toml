@@ -1,0 +1,12 @@
+[package]
+name = "ubl"
+description = "Command-line UNBEATEN launcher: detect the game, hash charts, install maps, sync scores"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+
+[dependencies]
+unbeaten-core.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+clap = { version = "4", features = ["derive"] }
