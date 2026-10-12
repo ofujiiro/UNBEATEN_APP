@@ -5,6 +5,7 @@ members = ["crates/core", "crates/cli", "src-tauri"]
 [workspace.package]
 version = "0.1.0"
 edition = "2021"
+license = "MIT"
 repository = "https://github.com/ofujiiro/UNBEATEN_APP"
 
 [workspace.dependencies]
