@@ -183,3 +183,8 @@ src-tauri/     the desktop app: commands, background worker, tray
 src/           the window (React + TypeScript, styled like unbeaten.cc)
 scripts/       e2e.py and its fixtures
 ```
+
+## License
+
+[MIT](LICENSE). UNBEATABLE and its assets aren't covered: they belong to
+D-CELL GAMES.
